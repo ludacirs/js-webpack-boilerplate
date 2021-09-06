@@ -1,1 +1,1 @@
-import 'normalize.css';
+import './styles/normalize.css';
