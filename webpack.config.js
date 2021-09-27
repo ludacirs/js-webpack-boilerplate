@@ -1,10 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const path = require("path");
 
 module.exports = {
     mode: "development",
     output: {
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        clean: true,
     },
     devtool: 'inline-source-map',
     module: {
@@ -23,10 +24,16 @@ module.exports = {
                     "postcss-loader",
                 ]
             },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: "asset/resource",
+                generator:{
+                    filename: 'assets/[hash][ext][query]'
+                }
+            },
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             filename: "./index.html",
@@ -34,4 +41,9 @@ module.exports = {
             showErrors: true,
         }),
     ],
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
+    },
 }
